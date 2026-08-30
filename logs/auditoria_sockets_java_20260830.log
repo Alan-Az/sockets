@@ -1,3 +1,0 @@
-[2026-08-30 22:17:14.701 UTC] [INFO] [Main] Iniciando listener en el puerto TCP 5003...
-[2026-08-30 22:17:14.737 UTC] [INFO] [TcpServidorSocket] Servidor TCP Java (Virtual Threads) iniciado en 0.0.0.0:5003
-[2026-08-30 22:17:14.739 UTC] [AUDIT] [SeguridadAuditoria] [AUDITORIA] Evento: SERVIDOR_INICIADO | Sujeto: 0.0.0.0:5003 | Detalle: Listo para atender conexiones.
