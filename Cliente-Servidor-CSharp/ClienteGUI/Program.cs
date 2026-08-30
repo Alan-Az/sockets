@@ -1,13 +1,13 @@
-using System.Windows.Forms;
+using Eto.Forms;
 
 namespace ClienteGUI;
 
 static class Program
 {
     [STAThread]
-    static void Main()
+    static void Main(string[] args)
     {
-        ApplicationConfiguration.Initialize();
-        Application.Run(new FormCliente());
+        var platform = Eto.Platform.Detect;
+        new Application(platform).Run(new FormCliente());
     }
 }
