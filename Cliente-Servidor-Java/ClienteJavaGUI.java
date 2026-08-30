@@ -14,6 +14,8 @@ import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -31,7 +33,7 @@ import javax.swing.text.StyledDocument;
 
 /**
  * Cliente TCP con Interfaz Gráfica (GUI) en Java Swing.
- * Muestra historial de mensajes con colores diferenciados por usuario.
+ * Chat Multiusuario con difusión y colores personalizados por usuario.
  */
 public class ClienteJavaGUI extends JFrame {
 
@@ -50,12 +52,23 @@ public class ClienteJavaGUI extends JFrame {
     private PrintWriter out;
     private BufferedReader in;
     private volatile boolean conectado;
-    private Thread listenerThread;
 
     private static final DateTimeFormatter TIME_FMT = DateTimeFormatter.ofPattern("HH:mm:ss");
+    private static final Pattern PATRON_USUARIO = Pattern.compile("^\\[([^\\]]+)\\]:\\s*(.*)$");
+
+    private static final Color[] PALETA_COLORES = new Color[]{
+            new Color(37, 99, 235),   // Azul
+            new Color(168, 85, 247),  // Morado
+            new Color(234, 88, 12),   // Naranja
+            new Color(13, 148, 136),  // Turquesa
+            new Color(225, 29, 72),   // Rosa / Rojo
+            new Color(5, 150, 105),   // Verde Esmeralda
+            new Color(202, 138, 4),   // Dorado
+            new Color(79, 70, 229)    // Índigo
+    };
 
     public ClienteJavaGUI() {
-        super("Cliente Sockets TCP/IP - Java Swing (TecNM)");
+        super("Chat de Sockets TCP/IP - Java Swing (TecNM)");
         configurarUI();
     }
 
@@ -64,7 +77,7 @@ public class ClienteJavaGUI extends JFrame {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception ignored) {}
 
-        setSize(700, 560);
+        setSize(700, 580);
         setMinimumSize(new Dimension(600, 450));
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -83,8 +96,8 @@ public class ClienteJavaGUI extends JFrame {
         txtPuerto = new JTextField("5000", 4);
         pnlConexion.add(txtPuerto);
 
-        pnlConexion.add(new JLabel("Usuario:"));
-        txtUsuario = new JTextField("Usuario-Java", 9);
+        pnlConexion.add(new JLabel("Tu Usuario:"));
+        txtUsuario = new JTextField("Usuario", 9);
         pnlConexion.add(txtUsuario);
 
         btnConectar = new JButton("Conectar");
@@ -105,7 +118,7 @@ public class ClienteJavaGUI extends JFrame {
         // 2. Área Central: Historial de Chat con colores
         textPaneHistorial = new JTextPane();
         textPaneHistorial.setEditable(false);
-        textPaneHistorial.setFont(new Font("Monospaced", Font.PLAIN, 13));
+        textPaneHistorial.setFont(new Font("Segoe UI", Font.PLAIN, 14));
         textPaneHistorial.setBackground(new Color(250, 252, 255));
         doc = textPaneHistorial.getStyledDocument();
 
@@ -126,7 +139,7 @@ public class ClienteJavaGUI extends JFrame {
         JPanel pnlBotones = new JPanel(new FlowLayout(FlowLayout.RIGHT, 6, 0));
         pnlBotones.setBackground(Color.WHITE);
 
-        btnEnviar = new JButton("Enviar Eco");
+        btnEnviar = new JButton("Enviar");
         btnEnviar.setBackground(new Color(16, 185, 129));
         btnEnviar.setForeground(Color.WHITE);
         btnEnviar.setFocusPainted(false);
@@ -135,7 +148,7 @@ public class ClienteJavaGUI extends JFrame {
         btnEnviar.addActionListener(e -> enviarMensaje());
         pnlBotones.add(btnEnviar);
 
-        btnSalir = new JButton("QUIT");
+        btnSalir = new JButton("Salir");
         btnSalir.setBackground(new Color(239, 68, 68));
         btnSalir.setForeground(Color.WHITE);
         btnSalir.setFocusPainted(false);
@@ -147,7 +160,7 @@ public class ClienteJavaGUI extends JFrame {
         pnlInferior.add(pnlBotones, BorderLayout.EAST);
         add(pnlInferior, BorderLayout.SOUTH);
 
-        agregarMensajeSistema("Bienvenido al Cliente TCP Java. Ingresa la IP/Puerto y presiona 'Conectar'.");
+        agregarMensajeSistema("Ingresa tu nombre, la IP/Puerto y presiona 'Conectar' para unirte al chat.");
 
         addWindowListener(new WindowAdapter() {
             @Override
@@ -196,16 +209,15 @@ public class ClienteJavaGUI extends JFrame {
                     txtHost.setEnabled(false);
                     txtPuerto.setEnabled(false);
                     txtUsuario.setEnabled(false);
-                    agregarMensajeSistema("¡Conexión establecida exitosamente!");
+                    agregarMensajeSistema("¡Conectado! Ya puedes chatear con los demás usuarios conectados.");
                 });
 
-                // Iniciar hilo de escucha
-                listenerThread = new Thread(this::escucharServidor);
-                listenerThread.start();
+                // Hilo de escucha en segundo plano
+                new Thread(this::escucharServidor).start();
 
             } catch (Exception ex) {
                 SwingUtilities.invokeLater(() -> {
-                    agregarMensajeSistema("Error de conexión: " + ex.getMessage());
+                    agregarMensajeSistema("Error al conectar: " + ex.getMessage());
                     desconectar(false);
                     btnConectar.setEnabled(true);
                 });
@@ -219,13 +231,12 @@ public class ClienteJavaGUI extends JFrame {
         String texto = txtMensaje.getText().trim();
         if (texto.isEmpty()) return;
 
-        String usuario = txtUsuario.getText().trim();
-        if (usuario.isEmpty()) usuario = "Usuario";
+        String miUsuario = txtUsuario.getText().trim();
+        if (miUsuario.isEmpty()) miUsuario = "Usuario";
 
-        String mensajeCompleto = "[" + usuario + "]: " + texto;
+        String mensajeCompleto = "[" + miUsuario + "]: " + texto;
         out.println(mensajeCompleto);
 
-        agregarMensajeUsuario(usuario, texto);
         txtMensaje.setText("");
         txtMensaje.requestFocus();
     }
@@ -235,7 +246,9 @@ public class ClienteJavaGUI extends JFrame {
             String respuesta;
             while (conectado && in != null && (respuesta = in.readLine()) != null) {
                 final String msg = respuesta.trim();
-                SwingUtilities.invokeLater(() -> agregarMensajeServidor(msg));
+                if (msg.isEmpty()) continue;
+
+                SwingUtilities.invokeLater(() -> procesarYMostrarMensaje(msg));
             }
         } catch (Exception ignored) {
         } finally {
@@ -245,6 +258,24 @@ public class ClienteJavaGUI extends JFrame {
                     desconectar(false);
                 });
             }
+        }
+    }
+
+    private void procesarYMostrarMensaje(String raw) {
+        Matcher matcher = PATRON_USUARIO.matcher(raw);
+        String hora = LocalTime.now().format(TIME_FMT);
+
+        if (matcher.matches()) {
+            String usuario = matcher.group(1).trim();
+            String contenido = matcher.group(2).trim();
+            Color colorUser = obtenerColorUsuario(usuario);
+
+            appendTexto("[" + hora + "] ", Color.GRAY, false);
+            appendTexto("[" + usuario + "]: ", colorUser, true);
+            appendTexto(contenido + "\n", new Color(30, 41, 59), false);
+        } else {
+            appendTexto("[" + hora + "] ", Color.GRAY, false);
+            appendTexto(raw + "\n", new Color(51, 65, 85), false);
         }
     }
 
@@ -280,25 +311,9 @@ public class ClienteJavaGUI extends JFrame {
         });
     }
 
-    private void agregarMensajeUsuario(String usuario, String mensaje) {
-        String hora = LocalTime.now().format(TIME_FMT);
-        Color colorUser = obtenerColorUsuario(usuario);
-
-        appendTexto("[" + hora + "] ", Color.GRAY, false);
-        appendTexto("[" + usuario + "]: ", colorUser, true);
-        appendTexto(mensaje + "\n", Color.BLACK, false);
-    }
-
-    private void agregarMensajeServidor(String mensaje) {
-        String hora = LocalTime.now().format(TIME_FMT);
-        appendTexto("[" + hora + "] ", Color.GRAY, false);
-        appendTexto("[SERVIDOR]: ", new Color(46, 117, 89), true);
-        appendTexto(mensaje + "\n", new Color(30, 41, 59), false);
-    }
-
     private void agregarMensajeSistema(String mensaje) {
         String hora = LocalTime.now().format(TIME_FMT);
-        appendTexto("[" + hora + "] [SISTEMA] " + mensaje + "\n", new Color(100, 100, 100), false);
+        appendTexto("[" + hora + "] [SISTEMA] " + mensaje + "\n", new Color(120, 120, 120), false);
     }
 
     private void appendTexto(String texto, Color color, boolean negrita) {
@@ -312,14 +327,8 @@ public class ClienteJavaGUI extends JFrame {
     }
 
     private Color obtenerColorUsuario(String usuario) {
-        if ("Usuario-Java".equalsIgnoreCase(usuario)) {
-            return new Color(168, 85, 247); // Morado
-        }
-        int hash = Math.abs(usuario.hashCode());
-        int r = (hash & 0xFF) % 180;
-        int g = ((hash >> 8) & 0xFF) % 180;
-        int b = ((hash >> 16) & 0xFF) % 200 + 40;
-        return new Color(r, g, b);
+        int hash = Math.abs(usuario.toLowerCase().hashCode());
+        return PALETA_COLORES[hash % PALETA_COLORES.length];
     }
 
     public static void main(String[] args) {

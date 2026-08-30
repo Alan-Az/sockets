@@ -6,11 +6,14 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * Servidor TCP Multihilo en Java basado en la Página 4 del PDF de la Práctica TecNM.
+ * Servidor TCP Multiusuario en Java con soporte de Difusión (Broadcast).
  */
 public class ServidorJava {
+
+    private static final ConcurrentHashMap<String, PrintWriter> clientesConectados = new ConcurrentHashMap<>();
 
     public static void main(String[] args) throws IOException {
         int port = 5000;
@@ -21,14 +24,11 @@ public class ServidorJava {
         }
 
         try (ServerSocket serverSocket = new ServerSocket(port)) {
-            System.out.println("[Servidor Java] Escuchando en puerto " + port + "...");
+            System.out.println("[Servidor Java] Servidor de Chat Multiusuario escuchando en puerto " + port + "...");
 
             while (true) {
                 Socket clientSocket = serverSocket.accept();
-
-                // Concurrencia multihilo para atender clientes simultáneos
-                Thread hilo = new Thread(() -> handleClient(clientSocket));
-                hilo.start();
+                new Thread(() -> handleClient(clientSocket)).start();
             }
         }
     }
@@ -37,29 +37,41 @@ public class ServidorJava {
         String endpoint = socket.getRemoteSocketAddress() != null
                 ? socket.getRemoteSocketAddress().toString()
                 : "Desconocido";
-
-        System.out.println("[Java Servidor] Cliente conectado desde " + endpoint);
+        String clienteId = socket.toString();
 
         try (Socket sock = socket;
              BufferedReader in = new BufferedReader(new InputStreamReader(sock.getInputStream(), StandardCharsets.UTF_8));
              PrintWriter out = new PrintWriter(new OutputStreamWriter(sock.getOutputStream(), StandardCharsets.UTF_8), true)) {
 
+            clientesConectados.put(clienteId, out);
+            System.out.println("[Java Servidor] Cliente conectado desde " + endpoint + " (Usuarios en línea: " + clientesConectados.size() + ")");
+
             String inputLine;
             while ((inputLine = in.readLine()) != null) {
                 String mensaje = inputLine.trim();
-                System.out.println("[Java Servidor] Recibido de " + endpoint + ": " + mensaje);
+                if (mensaje.isEmpty()) continue;
+
+                System.out.println("[Mensaje] " + endpoint + ": " + mensaje);
 
                 if (mensaje.equalsIgnoreCase("QUIT") || mensaje.equalsIgnoreCase("SALIR")) {
-                    out.println("ADIOS");
                     break;
                 }
 
-                out.println("ECO DESDE JAVA: " + mensaje);
+                // Difusión a todos los usuarios conectados (Broadcast)
+                broadcast(mensaje);
             }
-        } catch (IOException e) {
-            // Manejo de desconexión del cliente
+        } catch (IOException ignored) {
         } finally {
-            System.out.println("[Java Servidor] Conexión finalizada con " + endpoint);
+            clientesConectados.remove(clienteId);
+            System.out.println("[Java Servidor] Conexión finalizada con " + endpoint + " (Usuarios en línea: " + clientesConectados.size() + ")");
+        }
+    }
+
+    private static void broadcast(String mensaje) {
+        for (PrintWriter out : clientesConectados.values()) {
+            try {
+                out.println(mensaje);
+            } catch (Exception ignored) {}
         }
     }
 }

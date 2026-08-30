@@ -1,3 +1,4 @@
+using System.Collections.Concurrent;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
@@ -11,7 +12,10 @@ if (args.Length > 0 && int.TryParse(args[0], out int p))
 
 var listener = new TcpListener(ipAddress, port);
 listener.Start();
-Console.WriteLine($"[Servidor C#] Escuchando en el puerto {port}...");
+Console.WriteLine($"[Servidor C#] Servidor de Chat Multiusuario escuchando en el puerto {port}...");
+
+// Almacena todas las conexiones activas para difusión masiva (Broadcast)
+var clientesConectados = new ConcurrentDictionary<string, (TcpClient client, NetworkStream stream)>();
 
 while (true)
 {
@@ -22,41 +26,63 @@ while (true)
 async Task HandleClientAsync(TcpClient client)
 {
     var endpoint = client.Client.RemoteEndPoint?.ToString() ?? "Desconocido";
-    Console.WriteLine($"[C# Servidor] Cliente conectado desde {endpoint}");
+    var clientId = Guid.NewGuid().ToString("N")[..8];
+    var stream = client.GetStream();
 
-    using (client)
-    await using (var stream = client.GetStream())
+    clientesConectados[clientId] = (client, stream);
+    Console.WriteLine($"[C# Servidor] Cliente conectado desde {endpoint} (Usuarios en línea: {clientesConectados.Count})");
+
+    byte[] buffer = new byte[2048];
+    try
     {
-        byte[] buffer = new byte[1024];
+        while (client.Connected)
+        {
+            int bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length);
+            if (bytesRead == 0) break; // Desconexión
+
+            string message = Encoding.UTF8.GetString(buffer, 0, bytesRead).Trim();
+            if (string.IsNullOrWhiteSpace(message)) continue;
+
+            Console.WriteLine($"[Mensaje] {endpoint}: {message}");
+
+            if (message.Equals("QUIT", StringComparison.OrdinalIgnoreCase) ||
+                message.Equals("SALIR", StringComparison.OrdinalIgnoreCase))
+            {
+                break;
+            }
+
+            // DIFUSIÓN A TODOS LOS USUARIOS CONECTADOS (BROADCAST)
+            await BroadcastAsync(message);
+        }
+    }
+    catch (IOException)
+    {
+        // Desconexión abrupta
+    }
+    finally
+    {
+        clientesConectados.TryRemove(clientId, out _);
+        client.Dispose();
+        Console.WriteLine($"[C# Servidor] Conexión finalizada con {endpoint} (Usuarios en línea: {clientesConectados.Count})");
+    }
+}
+
+async Task BroadcastAsync(string mensaje)
+{
+    byte[] bytes = Encoding.UTF8.GetBytes(mensaje + "\n");
+
+    foreach (var kvp in clientesConectados)
+    {
         try
         {
-            while (client.Connected)
+            if (kvp.Value.client.Connected)
             {
-                int bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length);
-                if (bytesRead == 0) break; // Desconexión del cliente
-
-                string message = Encoding.UTF8.GetString(buffer, 0, bytesRead).Trim();
-                Console.WriteLine($"[C# Servidor] Mensaje recibido de {endpoint}: {message}");
-
-                if (message.Equals("QUIT", StringComparison.OrdinalIgnoreCase) ||
-                    message.Equals("SALIR", StringComparison.OrdinalIgnoreCase))
-                {
-                    byte[] quitResp = Encoding.UTF8.GetBytes("ADIOS\n");
-                    await stream.WriteAsync(quitResp, 0, quitResp.Length);
-                    break;
-                }
-
-                byte[] response = Encoding.UTF8.GetBytes($"ECO: {message}\n");
-                await stream.WriteAsync(response, 0, response.Length);
+                await kvp.Value.stream.WriteAsync(bytes, 0, bytes.Length);
             }
         }
-        catch (IOException)
+        catch
         {
-            // Desconexión intempestiva del cliente
-        }
-        finally
-        {
-            Console.WriteLine($"[C# Servidor] Conexión finalizada con {endpoint}");
+            clientesConectados.TryRemove(kvp.Key, out _);
         }
     }
 }
