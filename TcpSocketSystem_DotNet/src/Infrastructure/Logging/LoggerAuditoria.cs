@@ -1,21 +1,17 @@
-using System.Text;
 using TcpSocketSystem.Core.Domain.Puertos;
 
 namespace TcpSocketSystem.Core.Infrastructure.Logging;
 
 /// <summary>
-/// Servicio de logging y auditoría estructurado conforme a estándares de trazabilidad y seguridad (ISO 27001).
+/// Servicio de logging en consola para visualización en tiempo real sin persistencia en disco.
 /// </summary>
 public sealed class LoggerAuditoria : IServicioLogging
 {
-    private readonly string _rutaArchivoLogs;
     private readonly object _lockObj = new();
 
     public LoggerAuditoria(string? carpetaLogs = null)
     {
-        var carpeta = carpetaLogs ?? Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "logs");
-        Directory.CreateDirectory(carpeta);
-        _rutaArchivoLogs = Path.Combine(carpeta, $"auditoria_sockets_{DateTime.UtcNow:yyyyMMdd}.log");
+        // No genera archivos en disco para mantener el repositorio limpio
     }
 
     public void Info(string mensaje, string? origen = null)
@@ -30,15 +26,14 @@ public sealed class LoggerAuditoria : IServicioLogging
 
     public void Error(string mensaje, Exception? excepcion = null, string? origen = null)
     {
-        // En cumplimiento con Clean Code y Seguridad: el mensaje expuesto es controlado y el stack trace se preserva únicamente en logs internos.
         var detalle = excepcion != null ? $"{mensaje} | Excepción: {excepcion.GetType().Name} - {excepcion.Message}" : mensaje;
         EscribirLog("ERROR", detalle, origen, ConsoleColor.Red);
     }
 
     public void Auditoria(string evento, string ipOCliente, string detalles)
     {
-        var entrada = $"[AUDITORIA] Evento: {evento} | Sujeto: {ipOCliente} | Detalle: {detalles}";
-        EscribirLog("AUDIT", entrada, "SeguridadAuditoria", ConsoleColor.Green);
+        var entrada = $"[EVENTO] {evento} | Sujeto: {ipOCliente} | {detalles}";
+        EscribirLog("AUDIT", entrada, "Seguridad", ConsoleColor.Green);
     }
 
     private void EscribirLog(string nivel, string mensaje, string? origen, ConsoleColor colorConsola)
@@ -53,15 +48,6 @@ public sealed class LoggerAuditoria : IServicioLogging
             Console.ForegroundColor = colorConsola;
             Console.WriteLine(lineaCompleta);
             Console.ForegroundColor = colorAnterior;
-
-            try
-            {
-                File.AppendAllText(_rutaArchivoLogs, lineaCompleta + Environment.NewLine, Encoding.UTF8);
-            }
-            catch
-            {
-                // Manejo silencioso de error de escritura para no interrumpir el flujo principal
-            }
         }
     }
 }

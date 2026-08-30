@@ -1,22 +1,16 @@
 package com.tecnm.sockets.infrastructure.logging;
 
 import com.tecnm.sockets.domain.puertos.IServicioLogging;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.time.Instant;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 
 /**
- * Servicio de Logging y Auditoría conforme a ISO 27001 y estándares de seguridad.
- * Ofrece salida coloreada por consola y persistencia en disco con rotación diaria.
+ * Servicio de Logging en consola para visualización en tiempo real sin persistencia en disco.
  */
 public final class LoggerAuditoria implements IServicioLogging {
 
     private static final DateTimeFormatter FORMATTER_TS = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS").withZone(ZoneOffset.UTC);
-    private static final DateTimeFormatter FORMATTER_DIA = DateTimeFormatter.ofPattern("yyyyMMdd").withZone(ZoneOffset.UTC);
 
     // Códigos de color ANSI para la terminal
     private static final String ANSI_RESET = "\u001B[0m";
@@ -25,15 +19,10 @@ public final class LoggerAuditoria implements IServicioLogging {
     private static final String ANSI_RED = "\u001B[31m";
     private static final String ANSI_GREEN = "\u001B[32m";
 
-    private final String carpetaLogs;
     private final Object lock = new Object();
 
     public LoggerAuditoria(String carpetaLogs) {
-        this.carpetaLogs = (carpetaLogs != null) ? carpetaLogs : "logs";
-        File dir = new File(this.carpetaLogs);
-        if (!dir.exists()) {
-            dir.mkdirs();
-        }
+        // No genera archivos en disco para mantener el repositorio limpio
     }
 
     public LoggerAuditoria() {
@@ -60,8 +49,8 @@ public final class LoggerAuditoria implements IServicioLogging {
 
     @Override
     public void auditoria(String evento, String ipOCliente, String detalles) {
-        String entrada = String.format("[AUDITORIA] Evento: %s | Sujeto: %s | Detalle: %s", evento, ipOCliente, detalles);
-        escribirLog("AUDIT", entrada, "SeguridadAuditoria", ANSI_GREEN);
+        String entrada = String.format("[EVENTO] %s | Sujeto: %s | %s", evento, ipOCliente, detalles);
+        escribirLog("AUDIT", entrada, "Seguridad", ANSI_GREEN);
     }
 
     private void escribirLog(String nivel, String mensaje, String origen, String colorAnsi) {
@@ -72,14 +61,6 @@ public final class LoggerAuditoria implements IServicioLogging {
 
         synchronized (lock) {
             System.out.println(colorAnsi + linea + ANSI_RESET);
-
-            String nombreArchivo = String.format("%s/auditoria_sockets_java_%s.log", carpetaLogs, FORMATTER_DIA.format(ahora));
-            try (FileWriter fw = new FileWriter(nombreArchivo, true);
-                 PrintWriter pw = new PrintWriter(fw)) {
-                pw.println(linea);
-            } catch (IOException ignored) {
-                // Manejo silencioso para no interrumpir el flujo principal
-            }
         }
     }
 }
