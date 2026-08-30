@@ -1,38 +1,17 @@
-# ==========================================
-# Archivos de compilación y binarios (.NET & Java)
-# ==========================================
+# Binarios y carpetas de compilación
 **/bin/
 **/obj/
-TcpSocketSystem_Java/bin/
-*.class
 *.dll
 *.exe
 *.pdb
+*.class
 
-# ==========================================
-# Logs y Auditoría en tiempo de ejecución
-# ==========================================
-logs/
-**/logs/
-test_logs/
-**/test_logs/
-*.log
-
-# ==========================================
-# Configuraciones de IDE y Entornos
-# ==========================================
+# Configuraciones de entorno e IDEs
 .vscode/
 .idea/
-*.suo
 *.user
-*.userprefs
-*.sln.docstates
+*.suo
 
-# ==========================================
-# Resultados de pruebas y temporales
-# ==========================================
-TestResults/
-[Tt]emp/
-[Tt]mp/
+# Temporales del sistema
 .DS_Store
 Thumbs.db

@@ -4,13 +4,9 @@ set -e
 HOST=${1:-"127.0.0.1"}
 PUERTO=${2:-5000}
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
-BIN_DIR="$SCRIPT_DIR/Cliente-Servidor-Java/bin"
-
-mkdir -p "$BIN_DIR"
-javac -encoding UTF-8 -d "$BIN_DIR" "$SCRIPT_DIR/Cliente-Servidor-Java/ClienteJava.java"
 
 echo "==================================================="
-echo "  Iniciando Cliente TCP en Java ($HOST:$PUERTO)"
+echo "  Iniciando Cliente TCP en C# (.NET 10) ($HOST:$PUERTO)"
 echo "==================================================="
 
-java -cp "$BIN_DIR" ClienteJava "$HOST" "$PUERTO"
+dotnet run --project "$SCRIPT_DIR/Cliente-Servidor-CSharp/Cliente/Cliente.csproj" -- "$HOST" "$PUERTO"

@@ -4,12 +4,9 @@ param(
 )
 
 $baseDir = $PSScriptRoot
-if ([string]::IsNullOrWhiteSpace($baseDir)) {
-    $baseDir = Get-Location
-}
+if ([string]::IsNullOrWhiteSpace($baseDir)) { $baseDir = Get-Location }
 
 $jdkPath = "C:\Program Files\Eclipse Adoptium\jdk-21.0.11.10-hotspot\bin"
-
 if (Test-Path "$jdkPath\java.exe") {
     $javaBin = "$jdkPath\java.exe"
     $javacBin = "$jdkPath\javac.exe"
@@ -18,19 +15,17 @@ if (Test-Path "$jdkPath\java.exe") {
     $javacBin = "javac"
 }
 
-$binDir = Join-Path $baseDir "TcpSocketSystem_Java\bin"
-$srcDir = Join-Path $baseDir "TcpSocketSystem_Java\src"
+$javaDir = Join-Path $baseDir "Cliente-Servidor-Java"
+$binDir = Join-Path $javaDir "bin"
 
-# Compilar si aún no existen los binarios
 if (-not (Test-Path $binDir)) {
     New-Item -ItemType Directory -Path $binDir -Force | Out-Null
-    Write-Host "Compilando módulo Java por primera vez..." -ForegroundColor Yellow
-    $javaSources = (Get-ChildItem -Recurse -Filter *.java $srcDir).FullName
-    & $javacBin -encoding UTF-8 -d $binDir $javaSources
 }
 
+& $javacBin -encoding UTF-8 -d "$binDir" (Join-Path $javaDir "ClienteJava.java")
+
 Write-Host "===================================================" -ForegroundColor Green
-Write-Host "  Iniciando Cliente TCP Java 21 (${HostDestino}:${Puerto})" -ForegroundColor Green
+Write-Host "  Iniciando Cliente TCP en Java (${HostDestino}:${Puerto})" -ForegroundColor Green
 Write-Host "===================================================" -ForegroundColor Green
 
-& $javaBin -cp "$binDir" com.tecnm.sockets.app.ClienteApp $HostDestino $Puerto
+& $javaBin -cp "$binDir" ClienteJava $HostDestino $Puerto
