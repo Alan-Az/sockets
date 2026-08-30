@@ -1,0 +1,7 @@
+﻿[2026-08-30 22:22:17.912 UTC] [INFO] [Main] Iniciando listener en el puerto TCP 5000...
+[2026-08-30 22:22:17.928 UTC] [INFO] [TcpServidorSocket] Servidor TCP iniciado exitosamente y escuchando en 0.0.0.0:5000
+[2026-08-30 22:22:17.928 UTC] [AUDIT] [SeguridadAuditoria] [AUDITORIA] Evento: SERVIDOR_INICIADO | Sujeto: 0.0.0.0:5000 | Detalle: Servidor listo para aceptar conexiones entrantes.
+[2026-08-30 22:22:28.701 UTC] [AUDIT] [SeguridadAuditoria] [AUDITORIA] Evento: CLIENTE_CONECTADO | Sujeto: 127.0.0.1:57666 | Detalle: Sesión ID: 31b62aba iniciada exitosamente.
+[2026-08-30 22:22:28.704 UTC] [INFO] [GestionarSesionesHandler] [CONEXIÓN ABIERTA] Cliente 127.0.0.1:57666 (ID: 31b62aba). Clientes activos: 1
+[2026-08-30 22:22:31.864 UTC] [INFO] [ProcesarEcoHandler] Procesando mensaje [ecd99ca1] de Cliente-31b62aba: "hola"
+[2026-08-30 22:22:36.280 UTC] [INFO] [ProcesarEcoHandler] Procesando mensaje [4d1faa75] de Cliente-31b62aba: "si"

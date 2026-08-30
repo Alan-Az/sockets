@@ -1,0 +1,75 @@
+﻿[2026-08-30 22:08:20.360 UTC] [INFO] [ProcesarEcoHandler] Procesando mensaje [0a644dab] de Cliente-1: "Hola Servidor"
+[2026-08-30 22:08:20.364 UTC] [AUDIT] [SeguridadAuditoria] [AUDITORIA] Evento: CLIENTE_CONECTADO | Sujeto: 127.0.0.1:50001 | Detalle: Sesión ID: s1 iniciada exitosamente.
+[2026-08-30 22:08:20.364 UTC] [INFO] [GestionarSesionesHandler] [CONEXIÓN ABIERTA] Cliente 127.0.0.1:50001 (ID: s1). Clientes activos: 1
+[2026-08-30 22:08:20.365 UTC] [AUDIT] [SeguridadAuditoria] [AUDITORIA] Evento: CLIENTE_CONECTADO | Sujeto: 127.0.0.1:50002 | Detalle: Sesión ID: s2 iniciada exitosamente.
+[2026-08-30 22:08:20.366 UTC] [INFO] [GestionarSesionesHandler] [CONEXIÓN ABIERTA] Cliente 127.0.0.1:50002 (ID: s2). Clientes activos: 2
+[2026-08-30 22:08:20.368 UTC] [AUDIT] [SeguridadAuditoria] [AUDITORIA] Evento: CLIENTE_DESCONECTADO | Sujeto: 127.0.0.1:50001 | Detalle: Sesión s1 cerrada. Motivo: Prueba. Mensajes procesados: 1
+[2026-08-30 22:08:20.369 UTC] [INFO] [GestionarSesionesHandler] [CONEXIÓN CERRADA] Cliente 127.0.0.1:50001 (ID: s1). Clientes activos: 1
+[2026-08-30 22:08:20.371 UTC] [INFO] [TcpServidorSocket] Servidor TCP iniciado exitosamente y escuchando en 0.0.0.0:51234
+[2026-08-30 22:08:20.372 UTC] [AUDIT] [SeguridadAuditoria] [AUDITORIA] Evento: SERVIDOR_INICIADO | Sujeto: 0.0.0.0:51234 | Detalle: Servidor listo para aceptar conexiones entrantes.
+[2026-08-30 22:08:20.870 UTC] [INFO] [TcpClienteSocket] Intentando conectar a 127.0.0.1:51234 (Intento 1/3)...
+[2026-08-30 22:08:20.871 UTC] [INFO] [TcpClienteSocket] ¡Conectado exitosamente al servidor 127.0.0.1:51234!
+[2026-08-30 22:08:20.872 UTC] [INFO] [TcpClienteSocket] [ENVIANDO] -> "Prueba de Sockets TCP"
+[2026-08-30 22:08:20.873 UTC] [AUDIT] [SeguridadAuditoria] [AUDITORIA] Evento: CLIENTE_CONECTADO | Sujeto: 127.0.0.1:61146 | Detalle: Sesión ID: 05277222 iniciada exitosamente.
+[2026-08-30 22:08:20.874 UTC] [INFO] [GestionarSesionesHandler] [CONEXIÓN ABIERTA] Cliente 127.0.0.1:61146 (ID: 05277222). Clientes activos: 1
+[2026-08-30 22:08:20.875 UTC] [INFO] [ProcesarEcoHandler] Procesando mensaje [1286d8cf] de TestClient: "Prueba de Sockets TCP"
+[2026-08-30 22:08:20.878 UTC] [INFO] [TcpClienteSocket] [RECIBIDO] <- "[2026-08-30 22:08:20] [Servidor-IntegrationTest] REPLY: Prueba de Sockets TCP"
+[2026-08-30 22:08:20.878 UTC] [INFO] [TcpClienteSocket] [ENVIANDO] -> "QUIT"
+[2026-08-30 22:08:20.879 UTC] [AUDIT] [SeguridadAuditoria] [AUDITORIA] Evento: CLIENTE_DESCONECTADO | Sujeto: 127.0.0.1:61146 | Detalle: Sesión 05277222 cerrada. Motivo: Desconexión normal. Mensajes procesados: 0
+[2026-08-30 22:08:20.879 UTC] [INFO] [GestionarSesionesHandler] [CONEXIÓN CERRADA] Cliente 127.0.0.1:61146 (ID: 05277222). Clientes activos: 0
+[2026-08-30 22:08:20.880 UTC] [INFO] [TcpClienteSocket] [RECIBIDO] <- ""
+[2026-08-30 22:08:20.881 UTC] [INFO] [TcpServidorSocket] Servidor TCP detenido de forma ordenada.
+[2026-08-30 22:08:20.882 UTC] [AUDIT] [SeguridadAuditoria] [AUDITORIA] Evento: SERVIDOR_DETENIDO | Sujeto: 0.0.0.0:51234 | Detalle: Servidor finalizó la escucha.
+[2026-08-30 22:08:20.883 UTC] [INFO] [TcpClienteSocket] Intentando conectar a 127.0.0.1:59998 (Intento 1/1)...
+[2026-08-30 22:08:22.916 UTC] [WARN] [TcpClienteSocket] Fallo al conectar en el intento 1: No se puede establecer una conexión ya que el equipo de destino denegó expresamente dicha conexión.
+[2026-08-30 22:08:22.917 UTC] [ERROR] [TcpClienteSocket] No fue posible establecer conexión con 127.0.0.1:59998 tras 1 intentos.
+[2026-08-30 22:08:38.199 UTC] [INFO] [ProcesarEcoHandler] Procesando mensaje [0dd21472] de Cliente-1: "Hola Servidor"
+[2026-08-30 22:08:38.202 UTC] [AUDIT] [SeguridadAuditoria] [AUDITORIA] Evento: CLIENTE_CONECTADO | Sujeto: 127.0.0.1:50001 | Detalle: Sesión ID: s1 iniciada exitosamente.
+[2026-08-30 22:08:38.202 UTC] [INFO] [GestionarSesionesHandler] [CONEXIÓN ABIERTA] Cliente 127.0.0.1:50001 (ID: s1). Clientes activos: 1
+[2026-08-30 22:08:38.202 UTC] [AUDIT] [SeguridadAuditoria] [AUDITORIA] Evento: CLIENTE_CONECTADO | Sujeto: 127.0.0.1:50002 | Detalle: Sesión ID: s2 iniciada exitosamente.
+[2026-08-30 22:08:38.203 UTC] [INFO] [GestionarSesionesHandler] [CONEXIÓN ABIERTA] Cliente 127.0.0.1:50002 (ID: s2). Clientes activos: 2
+[2026-08-30 22:08:38.205 UTC] [AUDIT] [SeguridadAuditoria] [AUDITORIA] Evento: CLIENTE_DESCONECTADO | Sujeto: 127.0.0.1:50001 | Detalle: Sesión s1 cerrada. Motivo: Prueba. Mensajes procesados: 1
+[2026-08-30 22:08:38.205 UTC] [INFO] [GestionarSesionesHandler] [CONEXIÓN CERRADA] Cliente 127.0.0.1:50001 (ID: s1). Clientes activos: 1
+[2026-08-30 22:08:38.208 UTC] [INFO] [TcpServidorSocket] Servidor TCP iniciado exitosamente y escuchando en 0.0.0.0:51234
+[2026-08-30 22:08:38.208 UTC] [AUDIT] [SeguridadAuditoria] [AUDITORIA] Evento: SERVIDOR_INICIADO | Sujeto: 0.0.0.0:51234 | Detalle: Servidor listo para aceptar conexiones entrantes.
+[2026-08-30 22:08:38.711 UTC] [INFO] [TcpClienteSocket] Intentando conectar a 127.0.0.1:51234 (Intento 1/3)...
+[2026-08-30 22:08:38.713 UTC] [INFO] [TcpClienteSocket] ¡Conectado exitosamente al servidor 127.0.0.1:51234!
+[2026-08-30 22:08:38.714 UTC] [INFO] [TcpClienteSocket] [ENVIANDO] -> "Prueba de Sockets TCP"
+[2026-08-30 22:08:38.715 UTC] [AUDIT] [SeguridadAuditoria] [AUDITORIA] Evento: CLIENTE_CONECTADO | Sujeto: 127.0.0.1:61165 | Detalle: Sesión ID: 0210b0e5 iniciada exitosamente.
+[2026-08-30 22:08:38.716 UTC] [INFO] [GestionarSesionesHandler] [CONEXIÓN ABIERTA] Cliente 127.0.0.1:61165 (ID: 0210b0e5). Clientes activos: 1
+[2026-08-30 22:08:38.717 UTC] [INFO] [ProcesarEcoHandler] Procesando mensaje [cdf3a179] de TestClient: "Prueba de Sockets TCP"
+[2026-08-30 22:08:38.718 UTC] [INFO] [TcpClienteSocket] [RECIBIDO] <- "[2026-08-30 22:08:38] [Servidor-IntegrationTest] REPLY: Prueba de Sockets TCP"
+[2026-08-30 22:08:38.718 UTC] [INFO] [TcpClienteSocket] [ENVIANDO] -> "QUIT"
+[2026-08-30 22:08:38.719 UTC] [AUDIT] [SeguridadAuditoria] [AUDITORIA] Evento: CLIENTE_DESCONECTADO | Sujeto: 127.0.0.1:61165 | Detalle: Sesión 0210b0e5 cerrada. Motivo: Desconexión normal. Mensajes procesados: 0
+[2026-08-30 22:08:38.719 UTC] [INFO] [GestionarSesionesHandler] [CONEXIÓN CERRADA] Cliente 127.0.0.1:61165 (ID: 0210b0e5). Clientes activos: 0
+[2026-08-30 22:08:38.720 UTC] [INFO] [TcpClienteSocket] [RECIBIDO] <- ""
+[2026-08-30 22:08:38.721 UTC] [INFO] [TcpServidorSocket] Servidor TCP detenido de forma ordenada.
+[2026-08-30 22:08:38.721 UTC] [AUDIT] [SeguridadAuditoria] [AUDITORIA] Evento: SERVIDOR_DETENIDO | Sujeto: 0.0.0.0:51234 | Detalle: Servidor finalizó la escucha.
+[2026-08-30 22:08:38.722 UTC] [INFO] [TcpClienteSocket] Intentando conectar a 127.0.0.1:59998 (Intento 1/1)...
+[2026-08-30 22:08:40.759 UTC] [WARN] [TcpClienteSocket] Fallo al conectar en el intento 1: No se puede establecer una conexión ya que el equipo de destino denegó expresamente dicha conexión.
+[2026-08-30 22:08:40.760 UTC] [ERROR] [TcpClienteSocket] No fue posible establecer conexión con 127.0.0.1:59998 tras 1 intentos.
+[2026-08-30 22:12:35.004 UTC] [INFO] [ProcesarEcoHandler] Procesando mensaje [99e6b163] de Cliente-1: "Hola Servidor"
+[2026-08-30 22:12:35.007 UTC] [AUDIT] [SeguridadAuditoria] [AUDITORIA] Evento: CLIENTE_CONECTADO | Sujeto: 127.0.0.1:50001 | Detalle: Sesión ID: s1 iniciada exitosamente.
+[2026-08-30 22:12:35.007 UTC] [INFO] [GestionarSesionesHandler] [CONEXIÓN ABIERTA] Cliente 127.0.0.1:50001 (ID: s1). Clientes activos: 1
+[2026-08-30 22:12:35.007 UTC] [AUDIT] [SeguridadAuditoria] [AUDITORIA] Evento: CLIENTE_CONECTADO | Sujeto: 127.0.0.1:50002 | Detalle: Sesión ID: s2 iniciada exitosamente.
+[2026-08-30 22:12:35.008 UTC] [INFO] [GestionarSesionesHandler] [CONEXIÓN ABIERTA] Cliente 127.0.0.1:50002 (ID: s2). Clientes activos: 2
+[2026-08-30 22:12:35.010 UTC] [AUDIT] [SeguridadAuditoria] [AUDITORIA] Evento: CLIENTE_DESCONECTADO | Sujeto: 127.0.0.1:50001 | Detalle: Sesión s1 cerrada. Motivo: Prueba. Mensajes procesados: 1
+[2026-08-30 22:12:35.010 UTC] [INFO] [GestionarSesionesHandler] [CONEXIÓN CERRADA] Cliente 127.0.0.1:50001 (ID: s1). Clientes activos: 1
+[2026-08-30 22:12:35.013 UTC] [INFO] [TcpServidorSocket] Servidor TCP iniciado exitosamente y escuchando en 0.0.0.0:51234
+[2026-08-30 22:12:35.013 UTC] [AUDIT] [SeguridadAuditoria] [AUDITORIA] Evento: SERVIDOR_INICIADO | Sujeto: 0.0.0.0:51234 | Detalle: Servidor listo para aceptar conexiones entrantes.
+[2026-08-30 22:12:35.530 UTC] [INFO] [TcpClienteSocket] Intentando conectar a 127.0.0.1:51234 (Intento 1/3)...
+[2026-08-30 22:12:35.531 UTC] [INFO] [TcpClienteSocket] ¡Conectado exitosamente al servidor 127.0.0.1:51234!
+[2026-08-30 22:12:35.533 UTC] [INFO] [TcpClienteSocket] [ENVIANDO] -> "Prueba de Sockets TCP"
+[2026-08-30 22:12:35.534 UTC] [AUDIT] [SeguridadAuditoria] [AUDITORIA] Evento: CLIENTE_CONECTADO | Sujeto: 127.0.0.1:61197 | Detalle: Sesión ID: 27f9f244 iniciada exitosamente.
+[2026-08-30 22:12:35.534 UTC] [INFO] [GestionarSesionesHandler] [CONEXIÓN ABIERTA] Cliente 127.0.0.1:61197 (ID: 27f9f244). Clientes activos: 1
+[2026-08-30 22:12:35.535 UTC] [INFO] [ProcesarEcoHandler] Procesando mensaje [77ccdd5b] de TestClient: "Prueba de Sockets TCP"
+[2026-08-30 22:12:35.536 UTC] [INFO] [TcpClienteSocket] [RECIBIDO] <- "[2026-08-30 22:12:35] [Servidor-IntegrationTest] REPLY: Prueba de Sockets TCP"
+[2026-08-30 22:12:35.537 UTC] [INFO] [TcpClienteSocket] [ENVIANDO] -> "QUIT"
+[2026-08-30 22:12:35.537 UTC] [AUDIT] [SeguridadAuditoria] [AUDITORIA] Evento: CLIENTE_DESCONECTADO | Sujeto: 127.0.0.1:61197 | Detalle: Sesión 27f9f244 cerrada. Motivo: Desconexión normal. Mensajes procesados: 0
+[2026-08-30 22:12:35.538 UTC] [INFO] [GestionarSesionesHandler] [CONEXIÓN CERRADA] Cliente 127.0.0.1:61197 (ID: 27f9f244). Clientes activos: 0
+[2026-08-30 22:12:35.539 UTC] [INFO] [TcpClienteSocket] [RECIBIDO] <- ""
+[2026-08-30 22:12:35.540 UTC] [INFO] [TcpServidorSocket] Servidor TCP detenido de forma ordenada.
+[2026-08-30 22:12:35.540 UTC] [AUDIT] [SeguridadAuditoria] [AUDITORIA] Evento: SERVIDOR_DETENIDO | Sujeto: 0.0.0.0:51234 | Detalle: Servidor finalizó la escucha.
+[2026-08-30 22:12:35.541 UTC] [INFO] [TcpClienteSocket] Intentando conectar a 127.0.0.1:59998 (Intento 1/1)...
+[2026-08-30 22:12:37.575 UTC] [WARN] [TcpClienteSocket] Fallo al conectar en el intento 1: No se puede establecer una conexión ya que el equipo de destino denegó expresamente dicha conexión.
+[2026-08-30 22:12:37.576 UTC] [ERROR] [TcpClienteSocket] No fue posible establecer conexión con 127.0.0.1:59998 tras 1 intentos.

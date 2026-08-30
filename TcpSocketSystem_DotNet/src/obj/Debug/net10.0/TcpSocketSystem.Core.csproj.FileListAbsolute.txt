@@ -1,0 +1,11 @@
+c:\Dev\Rriojas\Nueva carpeta\TcpSocketSystem_DotNet\src\bin\Debug\net10.0\TcpSocketSystem.Core.deps.json
+c:\Dev\Rriojas\Nueva carpeta\TcpSocketSystem_DotNet\src\bin\Debug\net10.0\TcpSocketSystem.Core.dll
+c:\Dev\Rriojas\Nueva carpeta\TcpSocketSystem_DotNet\src\bin\Debug\net10.0\TcpSocketSystem.Core.pdb
+c:\Dev\Rriojas\Nueva carpeta\TcpSocketSystem_DotNet\src\obj\Debug\net10.0\TcpSocketSystem.Core.GeneratedMSBuildEditorConfig.editorconfig
+c:\Dev\Rriojas\Nueva carpeta\TcpSocketSystem_DotNet\src\obj\Debug\net10.0\TcpSocketSystem.Core.AssemblyInfoInputs.cache
+c:\Dev\Rriojas\Nueva carpeta\TcpSocketSystem_DotNet\src\obj\Debug\net10.0\TcpSocketSystem.Core.AssemblyInfo.cs
+c:\Dev\Rriojas\Nueva carpeta\TcpSocketSystem_DotNet\src\obj\Debug\net10.0\TcpSocketSystem.Core.csproj.CoreCompileInputs.cache
+c:\Dev\Rriojas\Nueva carpeta\TcpSocketSystem_DotNet\src\obj\Debug\net10.0\TcpSocketSystem.Core.dll
+c:\Dev\Rriojas\Nueva carpeta\TcpSocketSystem_DotNet\src\obj\Debug\net10.0\refint\TcpSocketSystem.Core.dll
+c:\Dev\Rriojas\Nueva carpeta\TcpSocketSystem_DotNet\src\obj\Debug\net10.0\TcpSocketSystem.Core.pdb
+c:\Dev\Rriojas\Nueva carpeta\TcpSocketSystem_DotNet\src\obj\Debug\net10.0\ref\TcpSocketSystem.Core.dll
