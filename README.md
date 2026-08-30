@@ -13,19 +13,26 @@ Este repositorio contiene la implementación limpia y directa de la práctica de
 │   ├── Servidor/
 │   │   ├── Program.cs          <-- Servidor TCP Asíncrono (.NET 10)
 │   │   └── Servidor.csproj
-│   └── Cliente/
-│       ├── Program.cs          <-- Cliente TCP (.NET 10)
-│       └── Cliente.csproj
+│   ├── Cliente/
+│   │   ├── Program.cs          <-- Cliente TCP de Consola (.NET 10)
+│   │   └── Cliente.csproj
+│   └── ClienteGUI/             <-- 🖥️ FRONTEND GRÁFICO (Windows Forms .NET 10)
+│       ├── FormCliente.cs      <-- Ventana con Historial y Colores por Usuario
+│       ├── Program.cs
+│       └── ClienteGUI.csproj
 │
 ├── ☕ Cliente-Servidor-Java/
 │   ├── ServidorJava.java       <-- Servidor TCP Multihilo (Java)
-│   └── ClienteJava.java        <-- Cliente TCP (Java)
+│   ├── ClienteJava.java        <-- Cliente TCP de Consola (Java)
+│   └── ClienteJavaGUI.java     <-- 🖥️ FRONTEND GRÁFICO (Java Swing)
 │
-├── 🚀 Scripts de Ejecución Rápida
-│   ├── ejecutar_servidor_csharp.ps1 / .sh
-│   ├── ejecutar_cliente_csharp.ps1 / .sh
-│   ├── ejecutar_servidor_java.ps1 / .sh
-│   └── ejecutar_cliente_java.ps1 / .sh
+├── 🚀 Scripts de Ejecución (PowerShell)
+│   ├── ejecutar_servidor_dotnet.ps1      <-- Inicia Servidor C#
+│   ├── ejecutar_cliente_dotnet.ps1       <-- Inicia Cliente Consola C#
+│   ├── ejecutar_cliente_gui_dotnet.ps1   <-- 🖥️ Inicia Cliente Gráfico (Ventana C#)
+│   ├── ejecutar_servidor_java.ps1        <-- Inicia Servidor Java
+│   ├── ejecutar_cliente_java.ps1         <-- Inicia Cliente Consola Java
+│   └── ejecutar_cliente_gui_java.ps1     <-- 🖥️ Inicia Cliente Gráfico (Ventana Java)
 │
 ├── 📚 Docs/
 │   ├── Manual_Ejecucion_y_Pruebas.md
@@ -38,44 +45,49 @@ Este repositorio contiene la implementación limpia y directa de la práctica de
 
 ## 🚀 Cómo Ejecutar el Proyecto
 
-### Opción A: Mediante Scripts en Windows (PowerShell)
+### 🖥️ Opción 1: Clientes con Interfaz Gráfica (Ventanas de Escritorio)
 
-Abre **dos terminales de PowerShell**:
+1. **Inicia el Servidor (C# o Java):**
+   ```powershell
+   pwsh ./ejecutar_servidor_dotnet.ps1 -Puerto 5000
+   ```
+
+2. **Abre el Cliente con Ventana:**
+   - **En C# (.NET 10 WinForms):**
+     ```powershell
+     pwsh ./ejecutar_cliente_gui_dotnet.ps1
+     ```
+   - **En Java (Java Swing):**
+     ```powershell
+     pwsh ./ejecutar_cliente_gui_java.ps1
+     ```
+
+✨ **Características del Frontend Gráfico:**
+- **Historial Completo:** Registro de todos los mensajes enviados y recibidos con *autoscroll*.
+- **Colores Diferenciados por Usuario:** Cada usuario tiene un color distintivo para identificar fácilmente quién escribió el mensaje (Verde/Gris para Servidor, Azul/Morado/Colores dinámicos por nombre de usuario).
+- **Control de Conexión:** Botón conectar/desconectar con indicador en vivo (🟢 Conectado / 🔴 Desconectado).
+
+---
+
+### 💻 Opción 2: Clientes por Consola / Terminal
 
 1. **Terminal 1 (Servidor):**
    ```powershell
-   pwsh ./ejecutar_servidor_csharp.ps1 -Puerto 5000
+   pwsh ./ejecutar_servidor_dotnet.ps1 -Puerto 5000
    # O si prefieres Java:
    pwsh ./ejecutar_servidor_java.ps1 -Puerto 5000
    ```
 
-2. **Terminal 2 (Cliente):**
+2. **Terminal 2 (Cliente Consola):**
    ```powershell
-   pwsh ./ejecutar_cliente_csharp.ps1 -HostDestino 127.0.0.1 -Puerto 5000
+   pwsh ./ejecutar_cliente_dotnet.ps1 -HostDestino 127.0.0.1 -Puerto 5000
    # O si prefieres Java:
    pwsh ./ejecutar_cliente_java.ps1 -HostDestino 127.0.0.1 -Puerto 5000
    ```
 
 ---
 
-### Opción B: Mediante Scripts en Linux / macOS (Bash)
-
-```bash
-# Dar permisos la primera vez:
-chmod +x *.sh
-
-# Terminal 1 (Servidor C# o Java):
-./ejecutar_servidor_csharp.sh 5000
-# ./ejecutar_servidor_java.sh 5000
-
-# Terminal 2 (Cliente C# o Java):
-./ejecutar_cliente_csharp.sh 127.0.0.1 5000
-# ./ejecutar_cliente_java.sh 127.0.0.1 5000
-```
-
----
-
-### Opción C: Comandos Directos (Sin Scripts)
+### Opción B: Comandos Directos (Sin Scripts)
 
 #### En C# (.NET 10):
 ```bash
