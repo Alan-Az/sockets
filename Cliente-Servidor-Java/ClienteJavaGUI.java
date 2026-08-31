@@ -88,16 +88,31 @@ public class ClienteJavaGUI extends JFrame {
         pnlConexion.setBackground(Color.WHITE);
         pnlConexion.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, new Color(220, 224, 230)));
 
-        pnlConexion.add(new JLabel("Host / IP:"));
+        JLabel lblHost = new JLabel("Host / IP:");
+        lblHost.setForeground(new Color(30, 41, 59));
+        pnlConexion.add(lblHost);
+
         txtHost = new JTextField("127.0.0.1", 9);
+        txtHost.setBackground(Color.WHITE);
+        txtHost.setForeground(new Color(15, 23, 42));
         pnlConexion.add(txtHost);
 
-        pnlConexion.add(new JLabel("Puerto:"));
+        JLabel lblPuerto = new JLabel("Puerto:");
+        lblPuerto.setForeground(new Color(30, 41, 59));
+        pnlConexion.add(lblPuerto);
+
         txtPuerto = new JTextField("5000", 4);
+        txtPuerto.setBackground(Color.WHITE);
+        txtPuerto.setForeground(new Color(15, 23, 42));
         pnlConexion.add(txtPuerto);
 
-        pnlConexion.add(new JLabel("Tu Usuario:"));
+        JLabel lblUsuario = new JLabel("Tu Usuario:");
+        lblUsuario.setForeground(new Color(30, 41, 59));
+        pnlConexion.add(lblUsuario);
+
         txtUsuario = new JTextField("Usuario", 9);
+        txtUsuario.setBackground(Color.WHITE);
+        txtUsuario.setForeground(new Color(15, 23, 42));
         pnlConexion.add(txtUsuario);
 
         btnConectar = new JButton("Conectar");
@@ -120,6 +135,7 @@ public class ClienteJavaGUI extends JFrame {
         textPaneHistorial.setEditable(false);
         textPaneHistorial.setFont(new Font("Segoe UI", Font.PLAIN, 14));
         textPaneHistorial.setBackground(new Color(250, 252, 255));
+        textPaneHistorial.setForeground(new Color(15, 23, 42));
         doc = textPaneHistorial.getStyledDocument();
 
         JScrollPane scrollPane = new JScrollPane(textPaneHistorial);
@@ -133,6 +149,8 @@ public class ClienteJavaGUI extends JFrame {
 
         txtMensaje = new JTextField();
         txtMensaje.setFont(new Font("SansSerif", Font.PLAIN, 13));
+        txtMensaje.setBackground(Color.WHITE);
+        txtMensaje.setForeground(new Color(15, 23, 42));
         txtMensaje.addActionListener(e -> enviarMensaje());
         pnlInferior.add(txtMensaje, BorderLayout.CENTER);
 
